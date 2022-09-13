@@ -1,0 +1,21 @@
+﻿@model LancheListViewModel
+
+
+<div>
+    <h2>@Model.CategoriaAtual</h2> <!-- Recuperando a View Data setada no Controller-->
+</div>
+<hr />
+<h3>@ViewBag.Total @ViewBag.TotalLanches</h3>
+
+<!--<h3> @TempData["Nome"];</h3> Recuperando valor de outro Controlador
+                                    - OBS: A recuperação do valor se da apenas uma vez.
+                                -->
+<div class="container">
+    <div class="row">
+        @foreach (var lanche in Model.Lanches)
+        {
+           <partial name="LanchesResumo" for="@lanche"/>
+        }
+    </div>
+
+</div>
