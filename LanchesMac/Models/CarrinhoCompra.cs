@@ -12,6 +12,7 @@ namespace LanchesMac.Models
             _context = context;
         }
 
+        //Definindo atributos do Carrinho
         public string CarrinhoCompraId { get; set; }
         public List<CarrinhoCompraItem> CarrinhoCompraItens { get; set; }
 

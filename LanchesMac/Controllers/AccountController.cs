@@ -68,6 +68,8 @@ namespace LanchesMac.Controllers
                 // Verificando se foi possível realizar o cadastro.
                 if (result.Succeeded)
                 {
+                    // Adicionando o Perfil Membro aos usuários criados
+                    await _userManager.AddToRoleAsync(user, "Member");
                     return RedirectToAction("Login", "Account");
                 }
                 else
@@ -85,6 +87,11 @@ namespace LanchesMac.Controllers
             HttpContext.User = null;
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

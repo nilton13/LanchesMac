@@ -2,6 +2,7 @@
 using LanchesMac.Models;
 using LanchesMac.Repositories;
 using LanchesMac.Repositories.Interfaces;
+using LanchesMac.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,6 +45,19 @@ public class Startup
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
         services.AddTransient<IPedidoRepository, PedidoRepository>();
 
+        // Adicionando o servico ao Projeto
+        services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+
+        //Implementando política
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Admin",
+                   politica =>
+                   {
+                       politica.RequireRole("Admin");
+                   });
+        });
+
         // Registrando o servico da classe de Carrinho de Compras
         services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
 
@@ -58,7 +72,7 @@ public class Startup
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ISeedUserRoleInitial seedUserRoleInitial)
     {
         if (env.IsDevelopment())
         {
@@ -74,6 +88,11 @@ public class Startup
         app.UseStaticFiles(); // Estão em wwwroot
 
         app.UseRouting();
+
+        // Criando as roles
+        seedUserRoleInitial.SeedRoles();
+        //Criando os usuários e atribuindo ao perfil
+        seedUserRoleInitial.SeedUsers();
 
         app.UseSession();
 
@@ -109,7 +128,7 @@ public class Startup
             // Criando rota para Listagem de Lanches Por Categoria
             endpoints.MapControllerRoute(
              name: "areas",
-             pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+             pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}"
             );
 
             endpoints.MapControllerRoute(
