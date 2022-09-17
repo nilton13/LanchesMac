@@ -1,4 +1,5 @@
-﻿using LanchesMac.Context;
+﻿using LanchesMac.Areas.Admin.Services;
+using LanchesMac.Context;
 using LanchesMac.Models;
 using LanchesMac.Repositories;
 using LanchesMac.Repositories.Interfaces;
@@ -48,6 +49,9 @@ public class Startup
 
         // Adicionando o servico ao Projeto
         services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+
+        //Adicionando servico de Relatorio
+        services.AddScoped<RelatorioVendasServices>();
 
         //Implementando política
         services.AddAuthorization(options =>
