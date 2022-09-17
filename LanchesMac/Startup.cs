@@ -30,6 +30,9 @@ public class Startup
                 .AddEntityFrameworkStores<AppDbContext>() // Para recuperar as informações do contexto
                 .AddDefaultTokenProviders();
 
+        services.ConfigureApplicationCookie(options => options.AccessDeniedPath = "/Home/AccessDenied");
+        services.Configure<ConfigurationImagens>(Configuration.GetSection("ConfigurationPastaImagens"));
+
         //Sobreescrevendo as políticas de senha 
         services.Configure<IdentityOptions>(options =>
         {
