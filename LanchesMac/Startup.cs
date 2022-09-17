@@ -55,6 +55,7 @@ public class Startup
 
         //Adicionando servico de Relatorio
         services.AddScoped<RelatorioVendasServices>();
+        services.AddScoped < GraficoVendasService>();
 
         //Implementando política
         services.AddAuthorization(options =>
